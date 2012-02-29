@@ -1,0 +1,61 @@
+
+<html>
+
+<head>
+<title>Inspector pages list</title>
+
+<script src="lib/require.js"></script>
+<script src="lib/socket.io.js"></script>
+<script src="lib/jquery-1.7.min.js"></script>
+
+<style>
+
+</style>
+
+<body>
+
+<h2>List of pages</h2>
+
+<div id="pages">
+</div>
+
+
+<script>
+
+function inspectorLink(id) {
+    return "webkit-inspector-crx/inspector.html?connector=true&page=" + id;
+}
+
+var sock = io.connect();
+
+var util = require("./lib/utils");
+
+function printPage(p) {
+    return '<div><a href="' + inspectorLink(p.id) + '">' + p.msg + '</a></div>';
+}
+
+function printPages(lst) {
+    $("#pages").html(lst.map(printPage).join("\n"))
+}
+
+function updatePages() {
+    sock.emit("list_pages", {}, function (lst) {
+        printPages(lst);
+    });
+}
+
+sock.on("list_pages", function (lst) {
+    printPages(lst);
+});
+
+sock.on("connect", function () {
+    updatePages();
+});
+
+</script>
+
+</body>
+
+</html>
+
+

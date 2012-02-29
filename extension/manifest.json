@@ -1,0 +1,19 @@
+{
+  "name": "Remote Debugging Connector",
+  "description": "Forwards the debugger of the page to a server, where it can be debugged remotely",
+  "version": "0.1",
+  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "permissions": [
+    "tabs",
+    "debugger",
+    "http://*/*"
+  ],
+  "background": {
+    "page": "background.html"
+  },
+  "browser_action": {
+    "default_icon": "connector.png",
+    "default_title": "Remote Debug"
+  },
+  "manifest_version": 2
+}
